@@ -1,22 +1,26 @@
-const express = require ("express");
-const app = express();
-const port = 3000;
+const express = require ("express"),
+	app = express(),
+	port = 3000;
 
 app.get("/", (req, res) => res.send("Hi there! Welcome to my assignement."));
 
 app.get("/speak/:animal", (req, res) => {
-    if (req.params.animal === 'pig') {
-        res.send("The pig says Oink");
-    } else if (req.params.animal === 'cow') {
-        res.send("The cow says Moo");
-    } else if (req.params.animal === 'dog') {
-        res.send("The dog says 'Woof woof'");
-    }
+	const animal = req.params.animal.toLowerCase(),
+		sounds = {
+			pig: "Oink",
+			cow: "Moo",
+			dog: "Woof, woof",
+			cat: "Meow",
+			goldfish: "..."
+		},
+		sound = sounds[animal];
+
+    res.send(`The ${animal} says '${sound}'`);
 });
 
 app.get("/repeat/:word/:times", (req, res) => {
-    const times = req.params.times;
-    const word = req.params.word;
+    const times = req.params.times,
+    	word = req.params.word;
     let sentence = ""
     
     for (let i = 0; i < times; i++) {
@@ -27,6 +31,5 @@ app.get("/repeat/:word/:times", (req, res) => {
 });
 
 app.get("*", (req, res) => res.send("Sorry, page not found"));
-
 
 app.listen(port, () => console.log("Server has started"));
